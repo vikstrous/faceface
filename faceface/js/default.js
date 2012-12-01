@@ -128,6 +128,12 @@
                 });
 
 
+                document.getElementById('next-button').addEventListener("click", function (evt) {
+                    if (numSelected == 2) {
+                        FaceDetector.doMash(selectedFriends[0], selectedFriends[1]);
+                    }
+                });
+
             } else {
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.
@@ -153,3 +159,8 @@ var ThumbnailConverter = WinJS.Binding.converter(
             return "https://graph.facebook.com/" + item + "/picture?type=normal&access_token=" + App.auth.token;
         }
 );
+
+function fullImageProfileUrl(friend) {
+    return "https://graph.facebook.com/" + friend.id + "/picture?type=large&access_token=" + App.auth.token;    
+};
+
