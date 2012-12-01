@@ -13,10 +13,6 @@
 @media screen and (-ms-view-state: fullscreen-portrait) {
 }
 
-.hide {
-    display: none !important;
-}
-
 #friendLeft
 {
     width:100%;
@@ -50,4 +46,14 @@
     border: blue;
     -ms-grid-columns: 300px 1fr 300px;
     -ms-grid-rows: 1fr;
+}
+
+.hidden {
+    display: none;
+}
+
+.friend-container {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
 }
