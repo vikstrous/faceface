@@ -90,7 +90,7 @@
                     var facebookURL = "https://www.facebook.com/dialog/oauth?client_id=";
                     var callbackURL = "https://www.facebook.com/connect/login_success.html";
 
-                    facebookURL += this.appID + "&redirect_uri=" + encodeURIComponent(callbackURL) + "&scope=user_photos%2Cfriends_photos&display=popup&response_type=token";
+                    facebookURL += this.appID + "&redirect_uri=" + encodeURIComponent(callbackURL) + "&scope=user_photos%2Cphoto_upload%2Cfriends_photos&display=popup&response_type=token";
 
                     var startURI = new Windows.Foundation.Uri(facebookURL);
                     var endURI = new Windows.Foundation.Uri(callbackURL);
