@@ -66,10 +66,12 @@
 
                         if (changedIndex) {
                             if (added) {
+                                if (typeof selectedFriends === 'undefined') {
+                                    numSelected++;
+                                }
                                 selectedFriends[1] = selectedFriends[0];
                                 selectedFriends[0] = bindingList.getAt(changedIndex);
                                 selectedFriends[0].dataIndex = changedIndex;
-                                numSelected++;
                             } else {
                                 if (bindingList.getAt(changedIndex).id == selectedFriends[0].id) {
                                     //Bring it back
@@ -82,8 +84,8 @@
                         }
 
                         var forcedSelectedIndicies = [];
-                        if (selectedFriends[0]) forcedSelectedIndicies.push(selectedFriends[0].dataIndex);
-                        if (selectedFriends[1]) forcedSelectedIndicies.push(selectedFriends[1].dataIndex);
+                        if (selectedFriends[0] !== undefined) forcedSelectedIndicies.push(selectedFriends[0].dataIndex);
+                        if (selectedFriends[1] !== undefined) forcedSelectedIndicies.push(selectedFriends[1].dataIndex);
                         forcingSelection = true;
                         listView.selection.set(forcedSelectedIndicies);
 
@@ -98,7 +100,7 @@
                             for (var i = 0; i < wrappedSelectedFriends.length; i++) {
                                 selectedFriends[i] = wrappedSelectedFriends[i].data;
                             }
-                          
+
                             //newSelection.forEachIndex(function (i) {
                             //    selectedFriends.push(bindingList.getAt(index));
                             //});
@@ -140,7 +142,7 @@
                     //} else if (currentPage == 1) {
                         FaceDetector.doMash(selectedFriends[0], selectedFriends[1]);
                     }
-                    
+
                 });
 
             } else {
@@ -170,6 +172,6 @@ var ThumbnailConverter = WinJS.Binding.converter(
 );
 
 function fullImageProfileUrl(friend) {
-    return "https://graph.facebook.com/" + friend.id + "/picture?type=large&access_token=" + App.auth.token;    
+    return "https://graph.facebook.com/" + friend.id + "/picture?type=large&access_token=" + App.auth.token;
 };
 
