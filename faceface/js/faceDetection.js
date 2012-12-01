@@ -1,4 +1,5 @@
-var api_key = 'cGpsb2duYzBqc2E2eWd2dXJ5dTBlcmhnZms2aDMyOmEyNTgzOTk3OGZiN2NjMjc2ZGQ4OWQ1OTIyOGE1MjVjNWE0Zjg4ODY=';
+var api_key = '2fd66e20596e45d2baf6c926ae19ac67';
+var api_secret = 'b794133d15614ff5aac7f288f641e841';
 
 var FaceDetector = {};
 
@@ -12,15 +13,13 @@ var FaceDetector = {};
         } else {
             img_url = url_or_urls;
         }
-        var base_url = 'https://lambda-face-detection-and-recognition.p.mashape.com/detect';
+        var base_url = 'http://api.skybiometry.com/fc/faces/detect.json?api_key='
+            + (api_key)
+            + '&api_secret=' + (api_secret)
+            + '&urls=' + img_url;
         return WinJS.xhr({
-            url: img_url,
-            headers {
-                'X-MASHAPE-AUTHORIZATION': api_key
-            },
-            data: {
-                images: img_url
-            }
+            type: 'GET',
+            url: base_url
         });
     };
 })();
