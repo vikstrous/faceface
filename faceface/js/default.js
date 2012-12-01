@@ -13,6 +13,7 @@
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
                 // TODO: This application has been newly launched. Initialize
                 // your application here.
+                App.init();
             } else {
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.
