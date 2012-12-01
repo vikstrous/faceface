@@ -86,9 +86,10 @@ FaceDetector = new (function (module) {
             }
 
             //DO DRAW
-            //Canvas.drawImage(f[0].url, 0.5, dp[0].x, dp[0].y, f[0].sigma, face1.width + ds[0].x, face1.height + ds[0].y);
-            //Canvas.drawImage(f[1].url, 0.5, dp[1].x, dp[1].y, f[1].sigma, face2.width + ds[1].x, face2.height + ds[1].y);
-            Canvas.drawImage(face1.url, 1, 0, 0, 0, face1.width, face1.height);
+            //Canvas.drawImage(face1.url, 0.5, dp[0].x, dp[0].y, f[0].sigma, face1.width + ds[0].x, face1.height + ds[0].y);
+            //Canvas.drawImage(face2.url, 0.5, dp[1].x, dp[1].y, f[1].sigma, face2.width + ds[1].x, face2.height + ds[1].y);
+            Canvas.drawImage(face1.url, 0.5, 0, 0, 0, face1.width, face1.height);
+            Canvas.drawImage(face2.url, 0.5, 0, 0, 0, face2.width, face2.height);
 
         }
         
