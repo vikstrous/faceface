@@ -12,7 +12,9 @@
         return WinJS.Utilities.query(selector);
     };
 
-    var selectedFriends = {};
+    var selectedFriends = [];
+    var lastSelectionItems = [];
+    var lastSelectionIndicies = [];
     var numSelected = 0;
 
     app.onactivated = function (args) {
@@ -24,23 +26,53 @@
                 App.init().then(function (friends_data) {
                     console.log(JSON.stringify(friends_data));
                     var listView = $('#friends').get(0).winControl;
-                    $('#friends').removeClass('hide');
+                    $('#friends').removeClass('hidden');
                     var bindingList = new WinJS.Binding.List(friends_data);
                     listView.itemTemplate = $('#friend-template').get(0);
                     listView.itemDataSource = bindingList.dataSource;
+                    listView.selectionMode = WinJS.UI.SelectionMode.multi;
 
-                    listView.addEventListener("iteminvoked", function (event) {
+                    listView.addEventListener("selectionchanged", function (event) {
+                        //var newSelection = event.detail.newSelection;
+                        var newSelection = listView.selection;
+                        var newSelectionCount = newSelection.count();
+                        if (newSelectionCount > 2) {
+                            //event.detail.preventTapBehavior();
+                            newSelection.set(lastSelectionIndicies);
+                        } else {
+                            var wrappedSelectedFriends = newSelection.getItems()._value
+                            selectedFriends = [];
+                            for (var i = 0; i < wrappedSelectedFriends.length; i++) {
+                                selectedFriends[i] = wrappedSelectedFriends[i].data;
+                            }
+                          
+                            //newSelection.forEachIndex(function (i) {
+                            //    selectedFriends.push(bindingList.getAt(index));
+                            //});
+                            numSelected = newSelectionCount;
+                        }
+                        lastSelectionItems = newSelection.getItems();
+                        lastSelectionIndicies = newSelection.getIndices();
+
+                        /*
                         var index = event.detail.itemIndex;
                         var friend = bindingList.getAt(index);
                         if (selectedFriends[friend.id]) {
                             delete selectedFriends[friend.id];
                             numSelected--;
+                            //WinJS.Utilities.removeClass(listView.elementFromIndex(index), "selectedFriend");
+                            $('#next-button').setAttribute("disabled", "disabled");
                         } else {
                             if (numSelected < 2) {
                                 selectedFriends[friend.id] = friend;
                                 numSelected++;
+                                //WinJS.Utilities.addClass(listView.elementFromIndex(index), "selectedFriend");
+                                if (numSelected == 2) {
+                                    $('#next-button').setAttribute("disabled", "");
+                                }
                             }
                         }
+                        */
                     });
 
                 });
@@ -68,6 +100,6 @@
 
 var ThumbnailConverter = WinJS.Binding.converter(
         function (item) {
-            return "https://graph.facebook.com/" + item + "/picture";
+            return "https://graph.facebook.com/" + item + "/picture?type=normal&access_token=" + App.auth.token;
         }
 );
