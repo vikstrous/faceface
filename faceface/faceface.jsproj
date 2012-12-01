@@ -63,6 +63,7 @@
     <Content Include="css\default.css" />
     <Content Include="js\FBAuth.js" />
     <Content Include="js\init.js" />
+    <Content Include="js\page2.js" />
     <None Include="faceface_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@
             auth.checksavedtoken().then(
             function success(data) {
                 // user has a valid token in auth.token
-                document.getElementById("user").innerText = auth.user.name;
+                //document.getElementById("user").innerText = auth.user.name;
                 friends_data = JSON.parse(localStorage.getItem('friends_data'));
                 return comp(friends_data);
             },
@@ -26,8 +26,8 @@
 
                 console.log('start');
                 auth.login().then(function success(data) {
-                    document.getElementById("user").innerText = auth.user.name;
-                    document.getElementById("expires").innerText = auth.expires.toString();
+                    //document.getElementById("user").innerText = auth.user.name;
+                    //document.getElementById("expires").innerText = auth.expires.toString();
                 
                     auth.call("me/friends").then(function success(result) {
                         try {
