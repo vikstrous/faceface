@@ -1,6 +1,10 @@
 ﻿(function () {
     "use strict";
 
+    var $ = function (selector) {
+        return WinJS.Utilities.query(selector);
+    };
+
     var dataArray = [
     { title: "Basic banana", text: "Low-fat frozen yogurt", picture: "images/60banana.png" },
     { title: "Banana blast", text: "Ice cream", picture: "images/60banana.png" },
@@ -23,4 +27,8 @@
         };
     WinJS.Namespace.define("DataExample", publicMembers);
 
+
+    $('.test').onclick = function () {
+        var buf = new Buffer(data.dataurl.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+    }
 })();
