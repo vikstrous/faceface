@@ -56,8 +56,10 @@ Canvas.draw = function (img, opacity, x, y, angle, xWidth, yWidth) {
         }
     });
 }
+/*
 Canvas.drawImage(null, 0.5, 20, 20, Math.PI / 7);
 Canvas.drawImage(null, 0.5, 0, 0, 0, 100, 200);
 Canvas.drawImage(null, 0.5, -220, -50, Math.PI / 3);
+*/
 
 
