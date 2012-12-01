@@ -53,7 +53,13 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="css\stylesheet.css" />
     <Content Include="default.html" />
+    <Content Include="fonts\IcoMoon.eot" />
+    <Content Include="fonts\IcoMoon.ttf" />
+    <Content Include="fonts\IcoMoon.woff" />
+    <Content Include="images\add.gif" />
+    <Content Include="images\arrowgrayright.png" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
