@@ -43,6 +43,8 @@ FaceDetector = new (function (module) {
         }
         console.log(JSON.stringify(face1));
         console.log(JSON.stringify(face2));
+
+
         
     };
 

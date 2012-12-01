@@ -16,6 +16,7 @@
     //var lastSelectionItems = [];
     var lastSelectionIndicies = [];
     var numSelected = 0;
+    var currentPage = 0;
 
     app.onactivated = function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
@@ -129,9 +130,14 @@
 
 
                 document.getElementById('next-button').addEventListener("click", function (evt) {
-                    if (numSelected == 2) {
+                    if (currentPage == 0 && numSelected == 2) {
+                        currentPage++;
+                        $('#page1').addClass("hidden");
+                        $('#page2').removeClass("hidden");
+                    //} else if (currentPage == 1) {
                         FaceDetector.doMash(selectedFriends[0], selectedFriends[1]);
                     }
+                    
                 });
 
             } else {
