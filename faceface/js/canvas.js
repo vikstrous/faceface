@@ -1,6 +1,13 @@
 
 var Canvas = {};
 
+Canvas.clear = function() {
+    Canvas.getContext(0, function(context) {
+        size = Canvas.getCanvasSize();
+        context.clearRect(0, 0, size.x, size.y);
+    });
+}
+
 Canvas.getContext = function(angle, callback) {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
