@@ -37,6 +37,15 @@ FaceDetector = new (function (module) {
         });
     };
 
+    function vectorSubtract(a, b) {
+        return {x: a.x - b.x, y: a.y - b.y};
+    }
+
+    function vectorRotate(v, angle) {
+        return {x: Math.cos(angle) * v.x - Math.sin(angle) * v.y, y: Math.sin(angle) * v.x + Math.cos(angle) * v.y };
+    }
+
+
     this.calculateMash = function (face1, face2) {
         if (!face1 || !face2) {
             return;
@@ -44,7 +53,41 @@ FaceDetector = new (function (module) {
         console.log(JSON.stringify(face1));
         console.log(JSON.stringify(face2));
 
+        //Do for first face for each photo for now
+        if (face1.tags && face1.tags[0] && face2.tags && face2.tags[0]) {
+            var faceValueHelper = function(face) {
+                data = {};
+                data.leftEye = face.tags[0].eye_left;
+                data.rightEye = face.tags[0].eye_right;
+                data.mouth = face.tags[0].mouth_center;
+                data.eyeLine = vectorSubtract(data.rightEye, data.leftEye);
+                data.sigma = Math.atan2(data.eyeLine.y, data.eyeLine.x);
+                data.leftEyeR = vectorRotate(data.leftEye, data.sigma);
+                data.rightEyeR = vectorRotate(data.rightEye, data.sigma);
+                data.mouthR = vectorRotate(data.mouth, data.sigma);
+                data.eyewidth = data.rightEyeR.x - data.leftEyeR.x;
+                data.faceHeight = data.mouthR.y - data.rightEyeR.y;
+                return data;
+            };
+            var f = [faceValueHelper(face1), faceValueHelper(face2)];
+            var dp = []; //delta position ;)
+            var ds = []; //delta size
+            for (var i = 0; i < 2; i++) {
+                dp[i] = {
+                    x: Math.min(f[0].mouthR.x, f[1].mouthR.x) - f[i].mouthR.x,
+                    y: Math.min(f[0].mouthR.y, f[1].mouthR.y) - f[i].mouthR.y
+                }
+            }
+            for (var i = 0; i < 2; i++) {
+                ds[i] = {
+                    x: (f[0].eyeWidth + f[1].eyeWidth) / 2 - f[i].eyeWidth,
+                    y: (f[0].faceHeight + f[1].faceHeight) / 2 - f[i].faceHeight
+                }
+            }
 
+            //DO DRAW
+
+        }
         
     };
 
