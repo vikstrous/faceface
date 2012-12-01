@@ -2,7 +2,12 @@ var api_key = '2fd66e20596e45d2baf6c926ae19ac67';
 var api_secret = 'b794133d15614ff5aac7f288f641e841';
 
 FaceDetector = new (function (module) {
-    var isArray = Array.isArray;
+    this.targetEyeWidth = 70; //150 //Pixels
+    this.targetFaceHeight = 70; //250 //Pixels
+    this.targetMouthPosition = function () {
+        var canvasSize = Canvas.getCanvasSize();
+        return { x: canvasSize.x / 2, y: canvasSize.y * 0.7 };
+    };
 
     this.doMash = function (friend1, friend2) {
         var self = this;
@@ -41,10 +46,25 @@ FaceDetector = new (function (module) {
         return {x: a.x - b.x, y: a.y - b.y};
     }
 
-    function vectorRotate(v, angle) {
-        return {x: Math.cos(angle) * v.x - Math.sin(angle) * v.y, y: Math.sin(angle) * v.x + Math.cos(angle) * v.y };
+    function vPM(a, b) {
+        return { x: a.x * b.x, y: a.y * b.y };
     }
 
+    function vectorRotate(v, angle) {
+        return {
+            x: Math.cos(angle) * v.x - Math.sin(angle) * v.y,
+            y: Math.sin(angle) * v.x + Math.cos(angle) * v.y
+        };
+    }
+
+    function drawDude(position, color) {
+        var ctx = document.getElementById('canvas').getContext("2d");
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(position.x, position.y, 5, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fill();
+    }
 
     this.calculateMash = function (face1, face2) {
         console.log(JSON.stringify(face1));
@@ -57,45 +77,95 @@ FaceDetector = new (function (module) {
 
         //Do for first face for each photo for now
         if (face1.tags && face1.tags[0] && face2.tags && face2.tags[0]) {
-            var faceValueHelper = function(face) {
-                data = {};
-                data.leftEye = face.tags[0].eye_right; // This seems wrong...
-                data.rightEye = face.tags[0].eye_left;
+            var canvasSize = Canvas.getCanvasSize();
+            var faceValueHelper = function (face) {
+                var data = {};
+                data.face = face;
+                data.leftEye = face.tags[0].eye_left;
+                data.rightEye = face.tags[0].eye_right;
                 data.mouth = face.tags[0].mouth_center;
+
+                //COORD FIX
+                var origSize = { x: data.face.width, y: data.face.height };
+                var percentFix = vPM(origSize, {x: 0.01, y: 0.01});
+                data.leftEye = vPM(percentFix, data.leftEye);
+                data.rightEye = vPM(percentFix, data.rightEye);
+                data.mouth = vPM(percentFix, data.mouth);
+                //COORD FLIP
+                //data.leftEye.x = face.width - data.leftEye.x;
+                //data.rightEye.x = face.width - data.rightEye.x;
+                //data.mouth.x = face.width - data.mouth.x;
+
                 data.eyeLine = vectorSubtract(data.rightEye, data.leftEye);
-                data.sigma = -Math.atan2(data.eyeLine.y, data.eyeLine.x);
+                data.sigma = - Math.atan2(data.eyeLine.y, data.eyeLine.x) - Math.PI; //MINUS IMPORTANT - TODO MAYBE FIX HALF OF QUADRANTS
                 data.leftEyeR = vectorRotate(data.leftEye, data.sigma);
                 data.rightEyeR = vectorRotate(data.rightEye, data.sigma);
                 data.mouthR = vectorRotate(data.mouth, data.sigma);
-                data.eyewidth = data.rightEyeR.x - data.leftEyeR.x;
+                data.eyeWidth = data.leftEyeR.x - data.rightEyeR.x;
                 data.faceHeight = data.mouthR.y - data.rightEyeR.y;
                 return data;
             };
             var f = [faceValueHelper(face1), faceValueHelper(face2)];
-            var dp = []; //delta position ;)
-            var ds = []; //delta size
-            for (var i = 0; i < 2; i++) {
-                dp[i] = {
-                    x: Math.min(f[0].mouthR.x, f[1].mouthR.x) - f[i].mouthR.x,
-                    y: Math.min(f[0].mouthR.y, f[1].mouthR.y) - f[i].mouthR.y
-                }
-            }
-            for (var i = 0; i < 2; i++) {
-                ds[i] = {
-                    x: (f[0].eyeWidth + f[1].eyeWidth) / 2 - f[i].eyeWidth,
-                    y: (f[0].faceHeight + f[1].faceHeight) / 2 - f[i].faceHeight
-                }
-            }
+            var position = [];
+            var size = [];
+            var scale = [];
 
+            //Scale
+            for (var i = 0; i < 2; i++) {
+                scale[i] = {
+                    x: this.targetEyeWidth / f[i].eyeWidth,
+                    y: this.targetFaceHeight / f[i].faceHeight
+                };
+            }
+            //New size of image
+            for (var i = 0; i < 2; i++) {
+                size[i] = {
+                    x: scale[i].x * f[i].face.width,
+                    y: scale[i].y * f[i].face.height
+                }
+            }
+            //New position of image
+            var targetMouth = this.targetMouthPosition();
+            for (var i = 0; i < 2; i++) {
+                position[i] = {
+                    x: targetMouth.x - f[i].mouthR.x * scale[i].x,
+                    y: targetMouth.y - f[i].mouthR.y * scale[i].y
+                }
+            }
+            console.log(JSON.stringify(position));
             //DO DRAW
-            //Canvas.drawImage(face1.url, 0.5, dp[0].x, dp[0].y, f[0].sigma, face1.width + ds[0].x, face1.height + ds[0].y);
-            //Canvas.drawImage(face2.url, 0.5, dp[1].x, dp[1].y, f[1].sigma, face2.width + ds[1].x, face2.height + ds[1].y);
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
-                Canvas.drawImage(face1.url, 1, 0, 0, f[0].sigma, face1.width, face1.height);
-                Canvas.drawImage(face2.url, 0.5, 0, 0, f[1].sigma, face2.width, face2.height);
-                upload();
-            });
+                //upload();
+                var greatSuccess = Canvas.drawImage(face1.url, 1, position[0].x, position[0].y, f[0].sigma, size[0].x, size[0].y);
+                if (greatSuccess) Canvas.drawImage(face2.url, 0.5, /*-240*/ position[1].x, /*420*/ position[1].y, f[1].sigma, size[1].x, size[1].y);
+                if (!greatSuccess) {
+                    //TODO
+                    //Navigate back or show error or something
+                }
 
+                //for (var i = 0; i < 1000; i++) {
+                //    drawDude(vectorRotate({ x: 100, y: 100 }, i * 0.01), 'blue');
+                //}
+                //Canvas.drawImage(face1.url, 0.6, 0/*position[0].x*/, 0/*position[0].y*/, f[0].sigma + 0.1, f[0].face.width, f[0].face.height);//size[0].x, size[0].y);
+                //Canvas.drawImage(face1.url, 0.6, 0/*position[0].x*/, 0/*position[0].y*/, f[0].sigma + 0.2, f[0].face.width, f[0].face.height);//size[0].x, size[0].y);
+
+                //var colors = ['red', 'green'];
+                //for (var i = 0; i < 2; i++) {
+                //    drawDude(f[i].leftEyeR, colors[i]);
+                //    drawDude(f[i].rightEyeR, colors[i]);
+                //    drawDude(f[i].mouthR, colors[i]);
+                //}
+                //for (var i = 0; i < 2; i++) {
+                //    drawDude(vPM(scale[i], f[i].leftEyeR), colors[i]);
+                //    drawDude(vPM(scale[i], f[i].rightEyeR), colors[i]);
+                //    drawDude(vPM(scale[i], f[i].mouthR), colors[i]);
+                //}
+                
+            });
+            //drawDude(vectorPiecewiseMultiply(f[0].mouthR, scale[0]), 'red');
+            //drawDude(vectorPiecewiseMultiply(f[1].mouthR, scale[1]), 'green');
+
+           
         }
         
     };

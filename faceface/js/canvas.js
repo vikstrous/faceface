@@ -9,9 +9,11 @@ Canvas.getContext = function(angle, callback) {
     }
     context.save();
 
+    //context.translate(-canvas.width/2, -canvas.height/2);
     //Do moving stuff in here..
     context.rotate(angle);
-    
+    //context.translate(canvas.width/2, canvas.height/2);
+
     //End of moving stuff.
 
     callback.call(window, context);
@@ -41,6 +43,14 @@ Canvas.drawImage = function (url, opacity, x, y, angle, xWidth, yWidth) {
         return false;
     }
 }
+
+Canvas.getCanvasSize = function () {
+    var c = document.getElementById('canvas');
+    return {
+        x: c.width,
+        y: c.height
+    }
+};
 
 //
 // You should call Canvas.drawImage, not this.
