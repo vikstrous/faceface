@@ -74,11 +74,11 @@
                                 selectedFriends[0].dataIndex = changedIndex;
                             } else {
                                 if (bindingList.getAt(changedIndex).id == selectedFriends[0].id) {
-                                    //Bring it back
+                                    // Delete numero uno, it's been zapped.
                                     selectedFriends[0] = selectedFriends[1];
-                                } else {
-                                    delete selectedFriends[1];
                                 }
+                                delete selectedFriends[1];
+                                selectedFriends[1] = undefined;
                                 numSelected--;
                             }
                         }
