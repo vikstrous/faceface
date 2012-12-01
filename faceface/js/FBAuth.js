@@ -101,7 +101,7 @@
                     return Windows.Security.Authentication.Web.WebAuthenticationBroker.authenticateAsync(
                         Windows.Security.Authentication.Web.WebAuthenticationOptions.none, startURI, endURI)
                         .then(function success(result) {
-
+                            console.log(result);
                             var responseURI = new Windows.Foundation.Uri(result.responseData);
                             var query = responseURI.queryParsed;
                             if (query.length > 0 && query.getFirstValueByName("error") != undefined) {
