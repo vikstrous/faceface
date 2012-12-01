@@ -66,7 +66,7 @@
 
                         if (changedIndex) {
                             if (added) {
-                                if (typeof selectedFriends === 'undefined') {
+                                if (typeof selectedFriends[0] === 'undefined' || typeof selectedFriends[1] === 'undefined') {
                                     numSelected++;
                                 }
                                 selectedFriends[1] = selectedFriends[0];
