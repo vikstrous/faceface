@@ -21,5 +21,13 @@
     <div id="expires"></div>
     <p>Content goes here</p>
     <canvas id="canvas"></canvas>
+    <div id="friends" data-win-control="WinJS.UI.ListView" data-win-options="{ layout: {type: WinJS.UI.GridLayout}}" }" class="hide"></div>
+
+    <div data-win-control="WinJS.Binding.Template" id="friend-template" style="display:none"> 
+        <div class="friend-container">
+            <img data-win-bind="src : id ThumbnailConverter; title: name" class="friend-image" />
+            <!-- <div data-win-bind="textContent: name"> </div>  -->
+        </div>  
+    </div>
 </body>
 </html>

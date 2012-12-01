@@ -12,3 +12,7 @@
 
 @media screen and (-ms-view-state: fullscreen-portrait) {
 }
+
+.hide {
+    display: none;
+}
