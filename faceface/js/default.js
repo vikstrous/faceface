@@ -13,7 +13,7 @@
     };
 
     var selectedFriends = [];
-    var lastSelectionItems = [];
+    //var lastSelectionItems = [];
     var lastSelectionIndicies = [];
     var numSelected = 0;
 
@@ -32,12 +32,61 @@
                     listView.itemDataSource = bindingList.dataSource;
                     listView.selectionMode = WinJS.UI.SelectionMode.multi;
 
+                    var forcingSelection = false;
+
                     listView.addEventListener("selectionchanged", function (event) {
+                        if (forcingSelection) {
+                            forcingSelection = false;
+                            return;
+                        }
                         //var newSelection = event.detail.newSelection;
                         var newSelection = listView.selection;
+                        var newSelectionIndices = newSelection.getIndices();
+                        var added = newSelectionIndices.length > lastSelectionIndicies.length
+                        var changedIndex;
+                        var larger = added ? newSelectionIndices : lastSelectionIndicies;
+                        var smaller = added ? lastSelectionIndicies : newSelectionIndices;
+                        for (var i = 0; i < larger.length; i++) {
+                            var found = false;
+                            for (var j = 0; j < smaller.length; j++) {
+                                if (larger[i] == smaller[j]) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                changedIndex = larger[i];
+                                break;
+                            }
+                        }
+
+                        if (changedIndex) {
+                            if (added) {
+                                selectedFriends[1] = selectedFriends[0];
+                                selectedFriends[0] = bindingList.getAt(changedIndex);
+                                selectedFriends[0].dataIndex = changedIndex;
+                                numSelected++;
+                            } else {
+                                if (bindingList.getAt(changedIndex).id == selectedFriends[0].id) {
+                                    //Bring it back
+                                    selectedFriends[0] = selectedFriends[1];
+                                } else {
+                                    delete selectedFriends[1];
+                                }
+                                numSelected--;
+                            }
+                        }
+
+                        var forcedSelectedIndicies = [];
+                        if (selectedFriends[0]) forcedSelectedIndicies.push(selectedFriends[0].dataIndex);
+                        if (selectedFriends[1]) forcedSelectedIndicies.push(selectedFriends[1].dataIndex);
+                        forcingSelection = true;
+                        listView.selection.set(forcedSelectedIndicies);
+
+
+                        /*
                         var newSelectionCount = newSelection.count();
                         if (newSelectionCount > 2) {
-                            //event.detail.preventTapBehavior();
                             newSelection.set(lastSelectionIndicies);
                         } else {
                             var wrappedSelectedFriends = newSelection.getItems()._value
@@ -51,8 +100,9 @@
                             //});
                             numSelected = newSelectionCount;
                         }
-                        lastSelectionItems = newSelection.getItems();
-                        lastSelectionIndicies = newSelection.getIndices();
+                        */
+                        //lastSelectionItems = newSelection.getItems();
+                        lastSelectionIndicies = forcedSelectedIndicies;
 
                         /*
                         var index = event.detail.itemIndex;
