@@ -34,7 +34,7 @@ Canvas.drawImage = function(url, opacity, x, y, angle, xWidth, yWidth) {
                 Canvas.draw(img, opacity, x, y, angle, xWidth, yWidth);
             };
         })(url, opacity, x, y, angle, xWidth, yWidth, img);
-        img.src = 'http://images.productspec.net/images.ashx?id=41824&amp;type=i&amp;size=m';
+        img.src = url;
     }
 }
 
