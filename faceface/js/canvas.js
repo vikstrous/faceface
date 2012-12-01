@@ -20,24 +20,27 @@ Canvas.getContext = function(angle, callback) {
 
 Canvas.imageCache = {};
 
-Canvas.drawImage = function(url, opacity, x, y, angle, xWidth, yWidth) {
+Canvas.loadImage = function (url) {
+    var promise = new WinJS.Promise(function (success, fail, progress) {
+        var img = new Image();
+        img.onload = function () {
+            Canvas.imageCache[url] = img;
+            success(url);
+        };
+        img.src = url;
+    });
+    return promise;
+}
+Canvas.drawImage = function (url, opacity, x, y, angle, xWidth, yWidth) {
+    var opacity = (opacity === undefined) ? 1 : opacity;
     if (Canvas.imageCache[url]) {
         var img = Canvas.imageCache[url];
-        draw(img, opacity, x, y, angle, xWidth, yWidth);
-        return;
+        Canvas.draw(img, opacity, x, y, angle, xWidth, yWidth);
+        return true;
     } else {
-        opacity = (opacity === undefined) ? 1 : opacity;
-        var img = new Image();
-        img.onload = (function (url, opacity, x, y, angle, xWidth, yWidth, img) {
-            return function() {
-                Canvas.imageCache[url] = img;
-                Canvas.draw(img, opacity, x, y, angle, xWidth, yWidth);
-            };
-        })(url, opacity, x, y, angle, xWidth, yWidth, img);
-        img.src = url;
+        return false;
     }
 }
-
 
 //
 // You should call Canvas.drawImage, not this.
