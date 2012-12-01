@@ -36,7 +36,18 @@
         -ms-grid-column: 1;
         -ms-grid-column-span: 3;
     }
-
+    #page1 .loading {
+        text-align: center;
+        -ms-grid-column-align: center;
+        -ms-grid-row-align: center;
+        -ms-grid-row: 2;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 3;
+    }
+    #page1 progress {
+        width: 40px;
+        height: 40px;
+    }
     #page1 .nav {
         width:500px;
         margin-left:auto;

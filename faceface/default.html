@@ -19,7 +19,6 @@
     <script src="/js/default.js"></script>
 </head>
 <body>
-    
     <div data-win-control="WinJS.Binding.Template" id="friend-template" style="display:none"> 
         <div class="friend-container">
             <img data-win-bind="src : id ThumbnailConverter; title: name" class="friend-image" />
@@ -43,10 +42,18 @@
 
     <div id="page1" class="page">
         <h1 class="title">Pick Two Friends To Mash:</h1>
-        <div class="friends" id="friends" data-win-control="WinJS.UI.ListView" data-win-options="{ layout: {type: WinJS.UI.GridLayout} }" class="hidden"></div>
+        <div class="friends" id="friends" data-win-control="WinJS.UI.ListView" data-win-options="{ layout: {type: WinJS.UI.GridLayout} }" class="hidden">
+        </div>
+        <div class="loading">
+            <label class="progressRingText">
+                <progress class="win-ring withText"></progress><br />
+                Loading...
+            </label>
+        </div>
 
         <div class="nav">
             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'next-button',label:'Mash',icon:'backtowindow',tooltip:'Go Forward'}">
+            </button>
         </div>
 
     </div>

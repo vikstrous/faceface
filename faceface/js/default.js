@@ -28,6 +28,9 @@
                     console.log(JSON.stringify(friends_data));
                     var listView = $('#friends').get(0).winControl;
                     $('#friends').removeClass('hidden');
+                    setTimeout(function () {
+                        $('.loading').addClass('hidden');
+                    }, 300);
                     var bindingList = new WinJS.Binding.List(friends_data);
                     listView.itemTemplate = $('#friend-template').get(0);
                     listView.itemDataSource = bindingList.dataSource;
