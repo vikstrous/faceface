@@ -57,11 +57,11 @@ FaceDetector = new (function (module) {
         if (face1.tags && face1.tags[0] && face2.tags && face2.tags[0]) {
             var faceValueHelper = function(face) {
                 data = {};
-                data.leftEye = face.tags[0].eye_left;
-                data.rightEye = face.tags[0].eye_right;
+                data.leftEye = face.tags[0].eye_right; // This seems wrong...
+                data.rightEye = face.tags[0].eye_left;
                 data.mouth = face.tags[0].mouth_center;
                 data.eyeLine = vectorSubtract(data.rightEye, data.leftEye);
-                data.sigma = Math.atan2(data.eyeLine.y, data.eyeLine.x);
+                data.sigma = -Math.atan2(data.eyeLine.y, data.eyeLine.x);
                 data.leftEyeR = vectorRotate(data.leftEye, data.sigma);
                 data.rightEyeR = vectorRotate(data.rightEye, data.sigma);
                 data.mouthR = vectorRotate(data.mouth, data.sigma);
@@ -88,8 +88,8 @@ FaceDetector = new (function (module) {
             //DO DRAW
             //Canvas.drawImage(face1.url, 0.5, dp[0].x, dp[0].y, f[0].sigma, face1.width + ds[0].x, face1.height + ds[0].y);
             //Canvas.drawImage(face2.url, 0.5, dp[1].x, dp[1].y, f[1].sigma, face2.width + ds[1].x, face2.height + ds[1].y);
-            Canvas.drawImage(face1.url, 0.5, 0, 0, 0, face1.width, face1.height);
-            Canvas.drawImage(face2.url, 0.5, 0, 0, 0, face2.width, face2.height);
+            Canvas.drawImage(face1.url, 1, 0, 0, f[0].sigma, face1.width, face1.height);
+            Canvas.drawImage(face2.url, 0.5, 0, 0, f[1].sigma, face2.width, face2.height);
 
         }
         
