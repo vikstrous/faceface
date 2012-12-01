@@ -37,6 +37,12 @@
                         });
                 },
 
+                call: function (url, success, fail) {
+                    return WinJS.xhr({
+                        url: "https://graph.facebook.com/" + url + "?access_token=" + this.token
+                    });
+                },
+
                 savetoken: function (token) {
                     var meUrl = "https://graph.facebook.com/me?access_token=" + token;
                     var that = this;
