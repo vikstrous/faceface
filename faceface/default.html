@@ -18,36 +18,34 @@
     <script src="/js/default.js"></script>
 </head>
 <body>
+
+    <div id="page1">
+        <div id="friends" data-win-control="WinJS.UI.ListView" data-win-options="{ layout: {type: WinJS.UI.GridLayout}}" }" class="hide"></div>
     
-    <div id="user"></div>
-    <div id="expires"></div>
-    <p>Content goes here</p>
-    
-    <div id="friends" data-win-control="WinJS.UI.ListView" data-win-options="{ layout: {type: WinJS.UI.GridLayout}}" }" class="hide"></div>
-    
-    <div data-win-control="WinJS.Binding.Template" id="friend-template" style="display:none"> 
-        <div class="friend-container">
-            <img data-win-bind="src : id ThumbnailConverter; title: name" class="friend-image" />
-            <!-- <div data-win-bind="textContent: name"> </div>  -->
+        <div data-win-control="WinJS.Binding.Template" id="friend-template" style="display:none"> 
+            <div class="friend-container">
+                <img data-win-bind="src : id ThumbnailConverter; title: name" class="friend-image" />
+                <!-- <div data-win-bind="textContent: name"> </div>  -->
+            </div>
         </div>
-    </div>
 
     
-    <div id="mediumListIconTextTemplate" data-win-control="WinJS.Binding.Template">
-        <div style="width: 150px; height: 100px;">
+        <div id="mediumListIconTextTemplate" data-win-control="WinJS.Binding.Template">
+            <div style="width: 150px; height: 100px;">
 
-            <img src="#" style="width: 60px; height: 60px;" 
-                 data-win-bind="alt: title; src: picture" />
-            <div>
+                <img src="#" style="width: 60px; height: 60px;" 
+                     data-win-bind="alt: title; src: picture" />
+                <div>
 
-                <h4 data-win-bind="innerText: title"></h4>
+                    <h4 data-win-bind="innerText: title"></h4>
 
-                <h6 data-win-bind="innerText: text"></h6>
+                    <h6 data-win-bind="innerText: text"></h6>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="page2">
+    <div id="page2" class="hide">
         <div id="friendLeft" data-win-control="WinJS.UI.ListView" 
         data-win-options="{itemDataSource : DataExample.itemList.dataSource, 
             itemTemplate: select('#mediumListIconTextTemplate'), 
@@ -60,5 +58,6 @@
             layout: {type: WinJS.UI.ListLayout}}">
         </div>  
     </div>
+
 </body>
 </html>
