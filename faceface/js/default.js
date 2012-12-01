@@ -21,11 +21,8 @@
                 // TODO: This application has been newly launched. Initialize
                 // your application here.
                 args.setPromise(WinJS.UI.processAll());
-                App.init().then(function (friends) {
-
-                
-                var imagesLoaded = function (friends_data) {
-                    //var friends_data = App.friends_data;
+                App.init().then(function (friends_data) {
+                    console.log(JSON.stringify(friends_data));
                     var listView = $('#friends').get(0).winControl;
                     $('#friends').removeClass('hide');
                     var bindingList = new WinJS.Binding.List(friends_data);
@@ -45,7 +42,6 @@
                             }
                         }
                     });
-                };
 
                 });
 
