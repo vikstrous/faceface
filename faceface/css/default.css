@@ -75,6 +75,12 @@
     -ms-grid-row-align: center;
     -ms-grid-column-align: center;
 }
+.loading2 {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+    -ms-grid-row-align: center;
+    -ms-grid-column-align: center;
+}
 
 .bottom
 {

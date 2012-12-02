@@ -1,6 +1,10 @@
 var api_key = '2fd66e20596e45d2baf6c926ae19ac67';
 var api_secret = 'b794133d15614ff5aac7f288f641e841';
 
+var $ = function (selector) {
+    return WinJS.Utilities.query(selector);
+};
+
 FaceDetector = new (function (module) {
     this.targetEyeWidth = 180; //150 //Pixels
     this.targetFaceHeight = 180; //250 //Pixels
@@ -19,21 +23,21 @@ FaceDetector = new (function (module) {
         var self = this;
 
         //Do face recognition request
-        /*
+        
         faceDataRequest = this.getFace([fullImageProfileUrl(friend1), fullImageProfileUrl(friend2)]);
         faceDataRequest.then(function (faceResponse) {
-            if (faceResponse.status == 200) {
-                var faceData = JSON.parse(faceResponse.responseText);
-                console.log(JSON.stringify(faceData));
-                if (faceData.photos) {
-                    self.calculateMash(faceData.photos[0], faceData.photos[1]);
+            console.log(faceResponse);
+            if (faceResponse[0].status == 200 && faceResponse[1].status == 200) {
+                var faceData = [JSON.parse(faceResponse[0].responseText), JSON.parse(faceResponse[1].responseText)];
+                if (faceData) {
+                    self.calculateMash(faceData[0].photos[0], faceData[1].photos[0]);
                 }
             }
         });
-        */
+        
 
         //Run test
-        this.calculateMash(testFace2, testFace1);
+        //this.calculateMash(testFace2, testFace1);
     };
 
     this.getFace = function(url_array) {
@@ -148,10 +152,12 @@ FaceDetector = new (function (module) {
 
             //DO DRAW
             var self = this;
+            $('.loading2').removeClass('hidden');
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
                 //setInterval(self.renderMash.bind(self));
+                $('.loading2').addClass('hidden');
                 self.renderMash();
-            }, 1000);
+            });
            
         }
 
