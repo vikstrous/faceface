@@ -116,6 +116,30 @@
     WinJS.UI.processAll().then(function () {
         $('.test').get(0).onclick = upload;
     });
-    
-    
+
+    /*
+    WinJS.UI.processAll().then(function () {
+        var imageFile = null;
+        function pickImageFile() {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.fileTypeFilter.replaceAll([".jpg", ".bmp", ".gif", ".png"]);
+            picker.pickSingleFileAsync().done(function (file) {
+                imageFile = file;
+            });
+        }
+
+        function shareImageHandler(e) {
+            var request = e.request;
+            request.data.properties.title = "Share Image Example";
+            request.data.properties.description = "Demonstrates how to share an image.";
+
+            // In this example, we use the imageFile for the thumbnail as well.
+            request.data.properties.thumbnail = Windows.Storage.Streams.RandomAccessStreamReference.createFromFile(imageFile);
+            request.data.setBitmap(Windows.Storage.Streams.RandomAccessStreamReference.createFromFile(imageFile));
+        }
+        var dataTransferManager = Windows.ApplicationModel.DataTransfer.DataTransferManager.getForCurrentView();
+        dataTransferManager.addEventListener("datarequested", shareImageHandler);
+        pickImageFile();
+    });*/
+
 })();
