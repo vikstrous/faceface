@@ -28,13 +28,10 @@
 
     <div id="mediumListIconTextTemplate" data-win-control="WinJS.Binding.Template">
         <div style="width: 150px; height: 100px;">
-
             <img src="#" style="width: 60px; height: 60px;"
                     data-win-bind="alt: title; src: picture" />
             <div>
-
                 <h4 data-win-bind="innerText: title"></h4>
-
                 <h6 data-win-bind="innerText: text"></h6>
             </div>
         </div>
@@ -72,6 +69,10 @@
         </div>
         <div class="share">
             Share me!
+        </div>
+        <div class="nav">
+            <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'back-button',label:'Mash',icon:'backtowindow',tooltip:'Go Forward'}">
+            </button>
         </div>
     </div>
 </body>

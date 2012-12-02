@@ -27,6 +27,7 @@
                 App.init().then(function (friends_data) {
                     console.log(JSON.stringify(friends_data));
                     var listView = $('#friends').get(0).winControl;
+                    listView.items.clear();
                     $('#friends').removeClass('hidden');
                     setTimeout(function () {
                         $('.loading').addClass('hidden');
@@ -141,10 +142,19 @@
                         $('#page2').removeClass("hidden");
                     //} else if (currentPage == 1) {
                         FaceDetector.doMash(selectedFriends[0], selectedFriends[1]);
+                        currentPage = 1;
+                        Canvas.clear();
                     }
 
                 });
-
+                document.getElementById('back-button').addEventListener('click', function(evt) {
+                    if (currentPage == 1) {
+                        currentPage = 0;
+                        var listView = $('#friends').get(0).winControl;
+                        listView.items.clear();
+                        Canvas.clear();
+                    }
+                });
             } else {
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.
