@@ -81,7 +81,8 @@
             var oMyFormData2 = new FormData();
             var data = {
                 access_token: App.auth.token,
-                url: imgr_url
+                url: imgr_url,
+                message: 'This is a mashup of @[' + selectedFriends[0].id + ':' + selectedFriends[0].name + '] and @[' + selectedFriends[1].id + ':' + selectedFriends[1].name + ']'
             };
             for (var key in data) {
                 oMyFormData2.append(key, data[key]);

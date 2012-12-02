@@ -138,7 +138,6 @@ FaceDetector = new (function (module) {
             console.log(JSON.stringify(position));
             //DO DRAW
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
-                //upload();
                 Canvas.drawImage(face1.url, 1, 0, 0, 0, f[0].face.width, f[0].face.height);
                 Canvas.drawImage(face2.url, 0.5, 0, 0, 0, f[1].face.width, f[1].face.height);
                 Canvas.drawImage(face1.url, 1, position[0].x, position[0].y, f[0].sigma, size[0].x, size[0].y);
@@ -171,6 +170,7 @@ FaceDetector = new (function (module) {
                 //    drawDude(vPM(scale[i], f[i].rightEyeR), colors2[i]);
                 //    drawDude(vPM(scale[i], f[i].mouthR), colors2[i]);
                 //}
+                upload();
                 
             });
             //drawDude(vectorPiecewiseMultiply(f[0].mouthR, scale[0]), 'red');
