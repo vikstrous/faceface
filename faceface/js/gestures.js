@@ -24,7 +24,13 @@ Gestures = new (function () {
         var canvas = Canvas.getCanvas();
         canvas.msSetPointerCapture(evt.pointerId);
         var currentPosition = { x: evt.currentPoint.rawPosition.x, y: evt.currentPoint.rawPosition.y };
+
+        if (this.lastPosition.x == undefined || this.lastPosition.y == undefined) {
+            this.lasPostition = currentPosition;
+            return;
+        }
         var delta = { x: currentPosition.x - this.lastPosition.x, y: currentPosition.y - this.lastPosition.y };
+        this.lastPosition = currentPosition;
 
         FaceDetector.position[0].x += delta.x;
         FaceDetector.position[0].y += delta.y;
