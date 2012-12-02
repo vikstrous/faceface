@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="default.html">
-      <VisualElements DisplayName="TwoFacing" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="faceface" ForegroundText="light" BackgroundColor="#464646">
+      <VisualElements DisplayName="TwoFacing" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="­." ForegroundText="light" BackgroundColor="#464646">
         <DefaultTile ShowName="allLogos" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>
