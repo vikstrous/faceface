@@ -74,6 +74,13 @@
     -ms-grid-column-align: center;
 }
 
+.bottom
+{
+    -ms-grid-row: 1;
+    -ms-grid-column: 3;
+    -ms-grid-row-align: end;
+    -ms-grid-column-align: center;
+}
 #friendRight
 {
     width:100%;

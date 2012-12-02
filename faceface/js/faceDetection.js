@@ -2,8 +2,8 @@ var api_key = '2fd66e20596e45d2baf6c926ae19ac67';
 var api_secret = 'b794133d15614ff5aac7f288f641e841';
 
 FaceDetector = new (function (module) {
-    this.targetEyeWidth = 130; //150 //Pixels
-    this.targetFaceHeight = 130; //250 //Pixels
+    this.targetEyeWidth = 180; //150 //Pixels
+    this.targetFaceHeight = 180; //250 //Pixels
     this.targetMouthPosition = function () {
         var canvasSize = Canvas.getCanvasSize();
         return { x: canvasSize.x / 2, y: canvasSize.y * 0.7 };
