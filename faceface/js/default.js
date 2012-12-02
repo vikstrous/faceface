@@ -152,6 +152,8 @@ var selectedFriends;
                     if (currentPage == 1) {
                         currentPage = 0;
                         var listView = $('#friends').get(0).winControl;
+                        $('#page1').removeClass("hidden");
+                        $('#page2').addClass("hidden");
                         Canvas.clear();
                     }
                 });
