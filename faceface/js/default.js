@@ -27,7 +27,6 @@
                 App.init().then(function (friends_data) {
                     console.log(JSON.stringify(friends_data));
                     var listView = $('#friends').get(0).winControl;
-                    listView.items.clear();
                     $('#friends').removeClass('hidden');
                     setTimeout(function () {
                         $('.loading').addClass('hidden');
@@ -75,11 +74,11 @@
                                 selectedFriends[0].dataIndex = changedIndex;
                             } else {
                                 if (bindingList.getAt(changedIndex).id == selectedFriends[0].id) {
-                                    // Delete numero uno, it's been zapped.
+                                    //Bring it back
                                     selectedFriends[0] = selectedFriends[1];
+                                } else {
+                                    delete selectedFriends[1];
                                 }
-                                delete selectedFriends[1];
-                                selectedFriends[1] = undefined;
                                 numSelected--;
                             }
                         }
@@ -151,7 +150,6 @@
                     if (currentPage == 1) {
                         currentPage = 0;
                         var listView = $('#friends').get(0).winControl;
-                        listView.items.clear();
                         Canvas.clear();
                     }
                 });
