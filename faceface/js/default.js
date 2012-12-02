@@ -148,7 +148,10 @@ var selectedFriends;
                     }
 
                 });
-                document.getElementById('back-button').addEventListener('click', function(evt) {
+                document.getElementById('upload_button').addEventListener('click', function (evt) {
+                    upload();
+                });
+                document.getElementById('back-button').addEventListener('click', function (evt) {
                     if (currentPage == 1) {
                         currentPage = 0;
                         var listView = $('#friends').get(0).winControl;
