@@ -93,13 +93,6 @@
         });
     };
 
-    // Create a namespace to make the data publicly
-    // accessible. 
-    var publicMembers =
-        {
-            itemList: dataList
-        };
-    WinJS.Namespace.define("DataExample", publicMembers);
 
     /*
     WinJS.UI.processAll().then(function () {
