@@ -17,7 +17,7 @@ Gestures = new (function () {
 
     function MSPointerDown(evt) {
         var currentPosition = { x: evt.currentPoint.rawPosition.x, y: evt.currentPoint.rawPosition.y };
-        this.lastPosition = currentPosition;
+        Gestures.lastPosition = currentPosition;
     }
 
     function MSPointerMove (evt) {
@@ -25,15 +25,15 @@ Gestures = new (function () {
         canvas.msSetPointerCapture(evt.pointerId);
         var currentPosition = { x: evt.currentPoint.rawPosition.x, y: evt.currentPoint.rawPosition.y };
 
-        if (this.lastPosition.x == undefined || this.lastPosition.y == undefined) {
-            this.lasPostition = currentPosition;
+        if (Gestures.lastPosition.x == undefined || Gestures.lastPosition.y == undefined) {
+            Gestures.lasPostition = currentPosition;
             return;
         }
-        var delta = { x: currentPosition.x - this.lastPosition.x, y: currentPosition.y - this.lastPosition.y };
-        this.lastPosition = currentPosition;
+        var delta = { x: currentPosition.x - Gestures.lastPosition.x, y: currentPosition.y - Gestures.lastPosition.y };
+        Gestures.lastPosition = currentPosition;
 
-        FaceDetector.position[0].x += delta.x;
-        FaceDetector.position[0].y += delta.y;
+        FaceDetector.position[1].x += delta.x;
+        FaceDetector.position[1].y += delta.y;
         FaceDetector.renderMash();
         /*
         if (!animationActive) {
