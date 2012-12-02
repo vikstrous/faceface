@@ -1,6 +1,10 @@
 var api_key = '2fd66e20596e45d2baf6c926ae19ac67';
 var api_secret = 'b794133d15614ff5aac7f288f641e841';
 
+var $ = function (selector) {
+    return WinJS.Utilities.query(selector);
+};
+
 FaceDetector = new (function (module) {
     this.targetEyeWidth = 180; //150 //Pixels
     this.targetFaceHeight = 180; //250 //Pixels
@@ -148,10 +152,12 @@ FaceDetector = new (function (module) {
 
             //DO DRAW
             var self = this;
+            $('.loading2').removeClass('hidden');
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
                 //setInterval(self.renderMash.bind(self));
+                $('.loading2').addClass('hidden');
                 self.renderMash();
-            }, 1000);
+            });
            
         }
 
