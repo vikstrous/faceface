@@ -13,7 +13,7 @@
         var oMyFormData = new FormData();
 
         var data = {
-            key: "81a894859ee60f798e47c1a837713bc0",
+            key: "d61cc5540d435d61678b2f9c5c8aac16",
             image: base64
         };
         for (var key in data) {
@@ -67,8 +67,8 @@
             var oMyFormData2 = new FormData();
             var data = {
                 access_token: App.auth.token,
-                url: imgr_url,
-                message: 'This is a mashup of @[' + selectedFriends[0].id + ':' + selectedFriends[0].name + '] and @[' + selectedFriends[1].id + ':' + selectedFriends[1].name + ']'
+                url: imgr_url//,
+                //message: 'This is a mashup of @[' + selectedFriends[0].id + ':' + selectedFriends[0].name + '] and @[' + selectedFriends[1].id + ':' + selectedFriends[1].name + ']'
             };
             for (var key in data) {
                 oMyFormData2.append(key, data[key]);
