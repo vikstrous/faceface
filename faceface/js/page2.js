@@ -113,9 +113,6 @@
             itemList: dataList
         };
     WinJS.Namespace.define("DataExample", publicMembers);
-    WinJS.UI.processAll().then(function () {
-        $('.test').get(0).onclick = upload;
-    });
 
     /*
     WinJS.UI.processAll().then(function () {
