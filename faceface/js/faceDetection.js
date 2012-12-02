@@ -11,9 +11,10 @@ FaceDetector = new (function (module) {
 
     this.doMash = function (friend1, friend2) {
         var self = this;
-        
+
         //Do face recognition request
-        /*faceDataRequest = this.getFace([fullImageProfileUrl(friend1), fullImageProfileUrl(friend2)]);
+        /*
+        faceDataRequest = this.getFace([fullImageProfileUrl(friend1), fullImageProfileUrl(friend2)]);
         faceDataRequest.then(function (faceResponse) {
             if (faceResponse.status == 200) {
                 var faceData = JSON.parse(faceResponse.responseText);
@@ -22,8 +23,8 @@ FaceDetector = new (function (module) {
                     self.calculateMash(faceData.photos[0], faceData.photos[1]);
                 }
             }
-        });*/
-        
+        });
+        */
 
         //Run test
         this.calculateMash(testFace1, testFace3);
@@ -31,7 +32,7 @@ FaceDetector = new (function (module) {
 
     this.getFace = function(url_array) {
         var img_url = url_array.join(',');
-        
+
         var base_url = 'http://api.skybiometry.com/fc/faces/detect.json?api_key='
             + (api_key)
             + '&api_secret=' + (api_secret)
@@ -133,6 +134,8 @@ FaceDetector = new (function (module) {
                 }
             }
             console.log(JSON.stringify(position));
+            // Cleanup shit n stuff.
+            Canvas.clear();
             //DO DRAW
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
                 //upload();
@@ -160,14 +163,14 @@ FaceDetector = new (function (module) {
                 //    drawDude(vPM(scale[i], f[i].rightEyeR), colors[i]);
                 //    drawDude(vPM(scale[i], f[i].mouthR), colors[i]);
                 //}
-                
+
             });
             //drawDude(vectorPiecewiseMultiply(f[0].mouthR, scale[0]), 'red');
             //drawDude(vectorPiecewiseMultiply(f[1].mouthR, scale[1]), 'green');
 
-           
+
         }
-        
+
     };
 
     var testFace1 = JSON.parse('{"url":"https://graph.facebook.com/508633758/picture?type=large","pid":"F@09d4a7e153d7abaf1783cf6b6f24f688_ae74227cad829","width":180,"height":180,"tags":[{"tid":"TEMP_F@09d4a7e153d7abaf1783cf6b1663f6b5_ae74227cad829_51.67_57.22_0_1","recognizable":true,"uids":[],"confirmed":false,"manual":false,"width":55,"height":55,"center":{"x":51.67,"y":57.22},"eye_left":{"x":67.78,"y":44.44},"eye_right":{"x":37.78,"y":43.89},"mouth_center":{"x":53.89,"y":76.11},"nose":{"x":53.89,"y":65},"yaw":-3,"roll":1,"pitch":0,"attributes":{"face":{"value":"true","confidence":76}}}]}');
