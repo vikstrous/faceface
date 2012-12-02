@@ -9,21 +9,28 @@ FaceDetector = new (function (module) {
         return { x: canvasSize.x / 2, y: canvasSize.y * 0.7 };
     };
 
+    //Public variables - modify to modify how images are being drawn
+    this.position = [];
+    this.size = [];
+    this.rotation = [];
+    this.imageUrls = [];
+
     this.doMash = function (friend1, friend2) {
         var self = this;
-        /*
+
         //Do face recognition request
+        /*
         faceDataRequest = this.getFace([fullImageProfileUrl(friend1), fullImageProfileUrl(friend2)]);
-        faceDataRequest.done(function (faceResponse) {
-            console.log(faceResponse);
-            if (faceResponse[0].status == 200 && faceResponse[1].status == 200) {
-                var faceData = [JSON.parse(faceResponse[0].responseText), JSON.parse(faceResponse[1].responseText)];
-                if (faceData) {
-                    self.calculateMash(faceData[0].photos[0], faceData[1].photos[0]);
+        faceDataRequest.then(function (faceResponse) {
+            if (faceResponse.status == 200) {
+                var faceData = JSON.parse(faceResponse.responseText);
+                console.log(JSON.stringify(faceData));
+                if (faceData.photos) {
+                    self.calculateMash(faceData.photos[0], faceData.photos[1]);
                 }
             }
-        });*/
-        
+        });
+        */
 
         //Run test
         this.calculateMash(testFace2, testFace1);
@@ -109,8 +116,9 @@ FaceDetector = new (function (module) {
                 return data;
             };
             var f = [faceValueHelper(face1), faceValueHelper(face2)];
-            var position = [];
-            var size = [];
+            this.position = [];
+            this.size = [];
+            this.rotation = [f[0].sigma, f[1].sigma];
             var scale = [];
 
             //Scale
@@ -122,7 +130,7 @@ FaceDetector = new (function (module) {
             }
             //New size of image
             for (var i = 0; i < 2; i++) {
-                size[i] = {
+                this.size[i] = {
                     x: scale[i].x * f[i].face.width,
                     y: scale[i].y * f[i].face.height
                 }
@@ -130,55 +138,50 @@ FaceDetector = new (function (module) {
             //New position of image
             var targetMouth = this.targetMouthPosition();
             for (var i = 0; i < 2; i++) {
-                position[i] = {
+                this.position[i] = {
                     x: targetMouth.x - f[i].mouthR.x * scale[i].x,
                     y: targetMouth.y - f[i].mouthR.y * scale[i].y
                 }
             }
-            console.log(JSON.stringify(position));
+
+            this.imageUrls = [face1.url, face2.url];
+
             //DO DRAW
+            var self = this;
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
-                Canvas.drawImage(face1.url, 1, 0, 0, 0, f[0].face.width, f[0].face.height);
-                Canvas.drawImage(face2.url, 0.5, 0, 0, 0, f[1].face.width, f[1].face.height);
-                Canvas.drawImage(face1.url, 1, position[0].x, position[0].y, f[0].sigma, size[0].x, size[0].y);
-                Canvas.drawImage(face2.url, 0.5, /*-240*/ position[1].x, /*420*/ position[1].y, f[1].sigma, size[1].x, size[1].y);
-                //if (!greatSuccess) {
-                    //TODO
-                    //Navigate back or show error or something
-                //}
-
-                //for (var i = 0; i < 1000; i++) {
-                //    drawDude(vectorRotate({ x: 100, y: 100 }, i * 0.01), 'blue');
-                //}
-                //Canvas.drawImage(face1.url, 0.6, 0/*position[0].x*/, 0/*position[0].y*/, f[0].sigma + 0.1, f[0].face.width, f[0].face.height);//size[0].x, size[0].y);
-                //Canvas.drawImage(face1.url, 0.6, 0/*position[0].x*/, 0/*position[0].y*/, f[0].sigma + 0.2, f[0].face.width, f[0].face.height);//size[0].x, size[0].y);
-
-                var colors = ['red', 'green'];
-                var colors2 = ['yellow', 'blue'];
-                //for (var i = 0; i < 2; i++) {
-                //    drawDude(f[i].leftEyeR, colors[i]);
-                //    drawDude(f[i].rightEyeR, colors[i]);
-                //    drawDude(f[i].mouthR, colors[i]);
-                //}
-                //for (var i = 0; i < 2; i++) {
-                //    drawDude(f[i].leftEye, colors[i]);
-                //    drawDude(f[i].rightEye, colors[i]);
-                //    drawDude(f[i].mouth, colors[i]);
-                //}
-                //for (var i = 0; i < 2; i++) {
-                //    drawDude(vPM(scale[i], f[i].leftEyeR), colors2[i]);
-                //    drawDude(vPM(scale[i], f[i].rightEyeR), colors2[i]);
-                //    drawDude(vPM(scale[i], f[i].mouthR), colors2[i]);
-                //}
-                upload();
-                
-            });
-            //drawDude(vectorPiecewiseMultiply(f[0].mouthR, scale[0]), 'red');
-            //drawDude(vectorPiecewiseMultiply(f[1].mouthR, scale[1]), 'green');
-
+                setInterval(self.renderMash.bind(self));
+            }, 1000);
            
         }
-        
+
+    };
+
+    this.renderMash = function() {
+        //upload();
+        var greatSuccess = Canvas.drawImage(this.imageUrls[0], 1, this.position[0].x, this.position[0].y, this.rotation[0], this.size[0].x, this.size[0].y);
+        if (greatSuccess) Canvas.drawImage(this.imageUrls[1], 0.5, this.position[1].x, this.position[1].y, this.rotation[1], this.size[1].x, this.size[1].y);
+        if (!greatSuccess) {
+            //TODO
+            //Navigate back or show error or something
+        }
+
+        //for (var i = 0; i < 1000; i++) {
+        //    drawDude(vectorRotate({ x: 100, y: 100 }, i * 0.01), 'blue');
+        //}
+        //Canvas.drawImage(face1.url, 0.6, 0/*position[0].x*/, 0/*position[0].y*/, f[0].sigma + 0.1, f[0].face.width, f[0].face.height);//size[0].x, size[0].y);
+        //Canvas.drawImage(face1.url, 0.6, 0/*position[0].x*/, 0/*position[0].y*/, f[0].sigma + 0.2, f[0].face.width, f[0].face.height);//size[0].x, size[0].y);
+
+        //var colors = ['red', 'green'];
+        //for (var i = 0; i < 2; i++) {
+        //    drawDude(f[i].leftEyeR, colors[i]);
+        //    drawDude(f[i].rightEyeR, colors[i]);
+        //    drawDude(f[i].mouthR, colors[i]);
+        //}
+        //for (var i = 0; i < 2; i++) {
+        //    drawDude(vPM(scale[i], f[i].leftEyeR), colors[i]);
+        //    drawDude(vPM(scale[i], f[i].rightEyeR), colors[i]);
+        //    drawDude(vPM(scale[i], f[i].mouthR), colors[i]);
+        //}
     };
 
     var testFace1 = JSON.parse('{"url":"https://graph.facebook.com/508633758/picture?type=large","pid":"F@09d4a7e153d7abaf1783cf6b6f24f688_ae74227cad829","width":180,"height":180,"tags":[{"tid":"TEMP_F@09d4a7e153d7abaf1783cf6b1663f6b5_ae74227cad829_51.67_57.22_0_1","recognizable":true,"uids":[],"confirmed":false,"manual":false,"width":55,"height":55,"center":{"x":51.67,"y":57.22},"eye_left":{"x":67.78,"y":44.44},"eye_right":{"x":37.78,"y":43.89},"mouth_center":{"x":53.89,"y":76.11},"nose":{"x":53.89,"y":65},"yaw":-3,"roll":1,"pitch":0,"attributes":{"face":{"value":"true","confidence":76}}}]}');
