@@ -13,7 +13,7 @@
         var oMyFormData = new FormData();
 
         var data = {
-            key: "d61cc5540d435d61678b2f9c5c8aac16",
+            key: "e07cb22d6fa0d570b7804d4510ce75d1",
             image: base64
         };
         for (var key in data) {

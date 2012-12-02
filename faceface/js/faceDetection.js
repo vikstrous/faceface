@@ -19,21 +19,21 @@ FaceDetector = new (function (module) {
         var self = this;
 
         //Do face recognition request
-        /*
+        
         faceDataRequest = this.getFace([fullImageProfileUrl(friend1), fullImageProfileUrl(friend2)]);
         faceDataRequest.then(function (faceResponse) {
-            if (faceResponse.status == 200) {
-                var faceData = JSON.parse(faceResponse.responseText);
-                console.log(JSON.stringify(faceData));
-                if (faceData.photos) {
-                    self.calculateMash(faceData.photos[0], faceData.photos[1]);
+            console.log(faceResponse);
+            if (faceResponse[0].status == 200 && faceResponse[1].status == 200) {
+                var faceData = [JSON.parse(faceResponse[0].responseText), JSON.parse(faceResponse[1].responseText)];
+                if (faceData) {
+                    self.calculateMash(faceData[0].photos[0], faceData[1].photos[0]);
                 }
             }
         });
-        */
+        
 
         //Run test
-        this.calculateMash(testFace2, testFace1);
+        //this.calculateMash(testFace2, testFace1);
     };
 
     this.getFace = function(url_array) {
