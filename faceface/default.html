@@ -57,13 +57,19 @@
     </div>
 
     <div id="page2" class="page hidden">
-        <canvas id="canvas" width="800" height="800"></canvas>
+        <canvas id="canvas" width="400" height="600"></canvas>
+        <div class="share">
+            Share me!
+        </div>
         <div class="nav">
             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'back-button',label:'Back!',icon:'back',tooltip:'Go Backwards'}">
             </button>
         </div>
         <div class="bottom">
+            <progress class="win-ring hidden upring"></progress>
             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'upload_button',label:'Upload to facebook!',icon:'upload',tooltip:'Upload to facebook!'}">
+            </button>
+            <button data-win-control="WinJS.UI.AppBarCommand" class="hidden" data-win-options="{id:'upload_success',label:'',icon:'accept',tooltip:'Upload to facebook!'}">
             </button>
         </div>
     </div>
