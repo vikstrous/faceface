@@ -1,5 +1,5 @@
-var api_key = '2fd66e20596e45d2baf6c926ae19ac67';
-var api_secret = 'b794133d15614ff5aac7f288f641e841';
+var api_key = '6fbbff5776d04ce79375293588fefbd8';
+var api_secret = '4c98b8874e214c7fb223f1d18b7ada82';
 
 var $ = function (selector) {
     return WinJS.Utilities.query(selector);
