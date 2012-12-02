@@ -149,14 +149,16 @@ FaceDetector = new (function (module) {
             //DO DRAW
             var self = this;
             WinJS.Promise.join([Canvas.loadImage(face1.url), Canvas.loadImage(face2.url)]).done(function () {
-                setInterval(self.renderMash.bind(self));
+                //setInterval(self.renderMash.bind(self));
+                self.renderMash();
             }, 1000);
            
         }
 
     };
 
-    this.renderMash = function() {
+    this.renderMash = function () {
+        Canvas.clear();
         //upload();
         var greatSuccess = Canvas.drawImage(this.imageUrls[0], 1, this.position[0].x, this.position[0].y, this.rotation[0], this.size[0].x, this.size[0].y);
         if (greatSuccess) Canvas.drawImage(this.imageUrls[1], 0.5, this.position[1].x, this.position[1].y, this.rotation[1], this.size[1].x, this.size[1].y);
