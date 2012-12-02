@@ -1,5 +1,6 @@
 ﻿// For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkId=232509
+var selectedFriends;
 (function () {
     "use strict";
 
@@ -12,7 +13,7 @@
         return WinJS.Utilities.query(selector);
     };
 
-    var selectedFriends = [];
+    selectedFriends = [];
     //var lastSelectionItems = [];
     var lastSelectionIndicies = [];
     var numSelected = 0;
@@ -133,6 +134,7 @@
 
                 });
 
+                Gestures.init(document.getElementById('canvas'));
 
                 document.getElementById('next-button').addEventListener("click", function (evt) {
                     if (currentPage == 0 && numSelected == 2) {

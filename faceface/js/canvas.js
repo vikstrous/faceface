@@ -51,8 +51,12 @@ Canvas.drawImage = function (url, opacity, x, y, angle, xWidth, yWidth) {
     }
 }
 
+Canvas.getCanvas = function () {
+    return document.getElementById('canvas');
+}
+
 Canvas.getCanvasSize = function () {
-    var c = document.getElementById('canvas');
+    var c = Canvas.getCanvas();
     return {
         x: c.width,
         y: c.height
