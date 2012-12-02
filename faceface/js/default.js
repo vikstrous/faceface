@@ -134,6 +134,7 @@
 
                 });
 
+                Gestures.init(document.getElementById('canvas'));
 
                 document.getElementById('next-button').addEventListener("click", function (evt) {
                     if (currentPage == 0 && numSelected == 2) {
